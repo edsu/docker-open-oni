@@ -17,9 +17,8 @@ docker run -d \
   -e MYSQL_DATABASE=openoni \
   -e MYSQL_USER=openoni \
   -e MYSQL_PASSWORD=openoni \
-  mysql || true
+  mysql && sleep $DELAY
 
-sleep $DELAY
 mysql -h $IP_ADDRESS -u root --password=123456 -e 'ALTER DATABASE openoni charset=utf8;'
 
 echo "Starting solr ..."
@@ -29,9 +28,7 @@ docker run -d \
   --name solr \
   -v /$(pwd)/solr/schema.xml:/opt/solr/example/solr/collection1/conf/schema.xml \
   -v /$(pwd)/solr/solrconfig.xml:/opt/solr/example/solr/collection1/conf/solrconfig.xml \
-  makuk66/docker-solr:$SOLR || true
-
-sleep $DELAY
+  makuk66/docker-solr:$SOLR && sleep $DELAY
 
 echo "Starting open-oni for development ..."
 docker run -i -t \
